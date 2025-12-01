@@ -8,7 +8,7 @@ load_dotenv()
 
 client = OpenAI()
 # Este bloque crea inserta preguntas de evaluaciones
-VECTOR_STORE_ID = "vs_68c9c950cbc08191aaef45ced7414318"
+""" VECTOR_STORE_ID = "vs_68c9c950cbc08191aaef45ced7414318"
 JSONL_PATH = "./utils/embeddings/preguntas/preguntas_bloque_d_enriquecido.jsonl"
 
 # Recupera tu vector store existente
@@ -39,12 +39,12 @@ with open(JSONL_PATH, encoding="utf-8") as f:
             attributes=meta
         )
 
-print("✅ Todas las preguntas de evaluación han sido cargadas en el vector store.")
+print("✅ Todas las preguntas de evaluación han sido cargadas en el vector store.") """
 
 # Este bloque inserta temas de la materia en la vector store
-""" VECTOR_STORE_ID = "vs_68c9c2c5a9748191b952550e1a4fbab6"
+VECTOR_STORE_ID = "vs_692e087391448191b1ab0ca35298e92f"
 EMBEDDING_MODEL = "text-embedding-3-small"
-JSONL_PATH = "./utils/embeddings/temas/bloque_d_matematicaii.jsonl"
+JSONL_PATH = "./utils/embeddings/fde/temas/temasfde.jsonl"
 
 vs = client.vector_stores.retrieve(
     vector_store_id=VECTOR_STORE_ID
@@ -67,4 +67,4 @@ for line in open(JSONL_PATH, encoding="utf8"):
         vector_store_id=vs.id,
         file_id=file.id,
         attributes=obj["metadata"]
-    ) """
+    )

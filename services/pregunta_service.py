@@ -42,12 +42,12 @@ class PreguntaService:
 
     async def insertar_y_clasificar_pregunta(self, texto: str, vector_store_id: str, estudiante_id: str, asistente_id: str):
         vector_service = VectorService(self.db)
-        tema_id, unidad_id = await vector_service.clasificar_consulta(
+        subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(
             texto=texto, vector_store_id=vector_store_id, estudiante_id=estudiante_id
         )
 
         pregunta_data = {
-            "contenido": texto, "tema_id": tema_id, "unidad_id": unidad_id,
+            "contenido": texto, "subtema_id": subtema_id, "tema_id": tema_id, "unidad_id": unidad_id,
             "estudiante_id": estudiante_id, "asistente_id": asistente_id
         }
         pregunta = await self.create_pregunta(pregunta_data=pregunta_data)

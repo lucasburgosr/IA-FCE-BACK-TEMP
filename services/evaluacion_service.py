@@ -82,7 +82,7 @@ class EvaluacionService:
 
         vector_service = VectorService(self.db)
 
-        tema_id, unidad_id = await vector_service.clasificar_consulta(tema_nombre, vs_id, estudiante_id)
+        subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(tema_nombre, vs_id, estudiante_id)
 
         preguntas = await vector_service.obtener_preguntas(tema=tema_nombre, tema_id=tema_id, n=num_q, vector_store_id=vs_id)
 
@@ -91,6 +91,7 @@ class EvaluacionService:
 
         evaluacion_data = {
             "nota": 0,
+            "subtema_id": subtema_id,
             "tema_id": tema_id,
             "estudiante_id": estudiante_id,
             "asistente_id": asistente_id,

@@ -81,7 +81,7 @@ class VectorService:
         async def get_last_ids() -> Optional[List[int]]:
             ps = PreguntaService(self.db)
             ultima = await ps.get_ultima_pregunta_by_estudiante(estudiante_id=estudiante_id)
-            return None if ultima is None else [ultima.tema_id, ultima.unidad_id]
+            return None if ultima is None else [ultima.subtema_id, ultima.tema_id, ultima.unidad_id]
 
         last_ids_task = asyncio.create_task(get_last_ids())
 
@@ -134,11 +134,12 @@ class VectorService:
 
         try:
             subtopic_int = int(float(best.attributes["subtopic_id"]))
+            topic_int = int(float(best.attributes["topic_id"]))
             unit_int = int(float(best.attributes["unit_id"]))
 
             # --- FILTRO DE SEGURIDAD ---
             # Si los IDs son 0 o inválidos, lo consideramos un mal resultado.
-            if subtopic_int == 0 or unit_int == 0:
+            if subtopic_int == 0 or unit_int == 0 or topic_int == 0:
                 print(f"[clasificar_consulta] IDs inválidos en los atributos.")
                 if (fb := await last_ids_task) is not None:
                     return fb
@@ -150,15 +151,15 @@ class VectorService:
                 return fb
             raise
 
-        return [subtopic_int, unit_int]
+        return [subtopic_int, topic_int, unit_int]
 
-    async def obtener_preguntas(self, tema: str, tema_id: int, n: int, vector_store_id: str) -> List[Dict]:
-        filters = {"key": "subtopic_id", "type": "eq", "value": str(tema_id)}
+    async def obtener_preguntas(self, subtema: str, subtema_id: int, n: int, vector_store_id: str) -> List[Dict]:
+        filters = {"key": "subtopic_id", "type": "eq", "value": str(subtema_id)}
 
         rsp = await asyncio.to_thread(
             sync_client.vector_stores.search,
             vector_store_id=vector_store_id,
-            query=f"pregunta de examen sobre {tema}",
+            query=f"pregunta de examen sobre {subtema}",
             max_num_results=n,
             filters=filters
         )
@@ -168,7 +169,7 @@ class VectorService:
         faltantes = n - len(preguntas)
         if faltantes > 0 or len(preguntas) == 0:
             ejemplos = [p["text"] for p in preguntas] if preguntas else []
-            prompt = self._construir_prompt_generacion(tema, tema_id, faltantes, ejemplos)
+            prompt = self._construir_prompt_generacion(subtema, subtema_id, faltantes, ejemplos)
 
             respuesta = await client.chat.completions.create(
                 model="gpt-4o-mini",

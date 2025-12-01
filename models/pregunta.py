@@ -11,6 +11,7 @@ class Pregunta(Base):
     contenido = Column(Text, nullable=False)
     created_at = Column(DateTime(timezone=True),
                         default=datetime.now(timezone.utc))
+    subtema_id = Column(Integer, ForeignKey("subtema.subtema_id"), nullable=False)
     tema_id = Column(Integer, ForeignKey("tema.tema_id"), nullable=False)
     unidad_id = Column(Integer, ForeignKey("unidad.unidad_id"), nullable=False)
     estudiante_id = Column(Integer, ForeignKey("estudiante.estudiante_id"), nullable=False)
