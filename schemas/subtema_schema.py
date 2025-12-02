@@ -2,23 +2,23 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class TemaBase(BaseModel):
+class SubtemaBase(BaseModel):
     nombre: str
     descripcion: Optional[str] = None
-    unidad_id: int
+    tema_id: int
 
 
-class TemaCreate(TemaBase):
+class SubtemaCreate(SubtemaBase):
     pass
 
 
-class TemaUpdate(BaseModel):
+class SubtemaUpdate(BaseModel):
     nombre: Optional[str] = None
     descripcion: Optional[str] = None
-    unidad_id: Optional[int] = None
+    tema_id: Optional[int] = None
 
 
-class TemaOut(TemaBase):
+class SubtemaOut(SubtemaBase):
     tema_id: int
 
     class Config:

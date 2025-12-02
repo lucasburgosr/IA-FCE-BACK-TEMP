@@ -68,10 +68,10 @@ class EvaluacionService:
         Si todo es exitoso, la evaluación se marca como pendiente.
         """
 
-        tema_nombre = data.get("tema")
+        subtema_nombre = data.get("subtema")
         num_q = data.get("num_questions", 5)
 
-        if not tema_nombre:
+        if not subtema_nombre:
             return {"error": "No se especificó un tema para la evaluación."}
 
         asistente_result = await self.db.execute(select(Asistente).where(Asistente.asistente_id == asistente_id))
@@ -82,9 +82,9 @@ class EvaluacionService:
 
         vector_service = VectorService(self.db)
 
-        subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(tema_nombre, vs_id, estudiante_id)
+        subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(subtema_nombre, vs_id, estudiante_id)
 
-        preguntas = await vector_service.obtener_preguntas(tema=tema_nombre, tema_id=tema_id, n=num_q, vector_store_id=vs_id)
+        preguntas = await vector_service.obtener_preguntas(subtema=subtema_nombre, subtema=subtema_id, n=num_q, vector_store_id=vs_id)
 
         if isinstance(preguntas, dict) and "error" in preguntas:
             return preguntas
@@ -92,7 +92,6 @@ class EvaluacionService:
         evaluacion_data = {
             "nota": 0,
             "subtema_id": subtema_id,
-            "tema_id": tema_id,
             "estudiante_id": estudiante_id,
             "asistente_id": asistente_id,
             "pendiente": True

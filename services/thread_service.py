@@ -238,8 +238,7 @@ class ThreadService:
                     thread_id=id,
                     assistant_id=asistente_id,
                     truncation_strategy={
-                        "type": "last_messages",
-                        "last_messages": 8
+                        "type": "auto"
                     },
                     tool_choice={"type": "file_search"}
                 )

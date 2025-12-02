@@ -42,7 +42,7 @@ with open(JSONL_PATH, encoding="utf-8") as f:
 print("✅ Todas las preguntas de evaluación han sido cargadas en el vector store.") """
 
 # Este bloque inserta temas de la materia en la vector store
-VECTOR_STORE_ID = "vs_692e087391448191b1ab0ca35298e92f"
+VECTOR_STORE_ID = "vs_692f2d7335f08191b91c7623b25f1651"
 EMBEDDING_MODEL = "text-embedding-3-small"
 JSONL_PATH = "./utils/embeddings/fde/temas/temasfde.jsonl"
 

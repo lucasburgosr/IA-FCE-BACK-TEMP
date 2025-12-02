@@ -47,7 +47,7 @@ class PreguntaService:
         )
 
         pregunta_data = {
-            "contenido": texto, "subtema_id": subtema_id, "tema_id": tema_id, "unidad_id": unidad_id,
+            "contenido": texto, "subtema_id": subtema_id, "unidad_id": unidad_id,
             "estudiante_id": estudiante_id, "asistente_id": asistente_id
         }
         pregunta = await self.create_pregunta(pregunta_data=pregunta_data)

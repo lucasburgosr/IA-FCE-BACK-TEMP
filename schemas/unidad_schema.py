@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from schemas.subtema_schema import TemaOut
+from schemas.subtema_schema import SubtemaOut
 
 
 class UnidadBase(BaseModel):
@@ -20,7 +20,7 @@ class UnidadUpdate(BaseModel):
 
 class UnidadOut(UnidadBase):
     unidad_id: int
-    subtemas: List[TemaOut] = []
+    subtemas: List[SubtemaOut] = []
 
     class Config:
         from_attributes = True

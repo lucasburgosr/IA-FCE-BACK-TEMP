@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, DateTime, ForeignKey, Interval, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone, timedelta
 from models.usuario import Usuario
-from models.alumno_asistente import alumno_asistente
+from models.estudiante_asistente import estudiante_asistente
 
 
 class Estudiante(Usuario):
@@ -21,7 +21,7 @@ class Estudiante(Usuario):
     evaluaciones = relationship(
         "Evaluacion", backref="estudiante", cascade="all, delete-orphan")
     asistentes = relationship(
-        "Asistente", secondary=alumno_asistente, backref="estudiante")
+        "Asistente", secondary=estudiante_asistente, backref="estudiante")
     threads = relationship("Thread", backref="estudiante",
                            cascade="all, delete-orphan")
     sesiones = relationship(

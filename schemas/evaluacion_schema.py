@@ -2,12 +2,12 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
-from schemas.subtema_schema import TemaOut
+from schemas.subtema_schema import SubtemaOut
 
 
 class EvaluacionBase(BaseModel):
     nota: float
-    tema: TemaOut
+    tema: SubtemaOut
     asistente_id: str
 
 

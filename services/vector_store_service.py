@@ -81,7 +81,7 @@ class VectorService:
         async def get_last_ids() -> Optional[List[int]]:
             ps = PreguntaService(self.db)
             ultima = await ps.get_ultima_pregunta_by_estudiante(estudiante_id=estudiante_id)
-            return None if ultima is None else [ultima.subtema_id, ultima.tema_id, ultima.unidad_id]
+            return None if ultima is None else [ultima.subtema_id, ultima.unidad_id]
 
         last_ids_task = asyncio.create_task(get_last_ids())
 
@@ -190,9 +190,9 @@ class VectorService:
         
         return preguntas[:n]
 
-    def _construir_prompt_generacion(self, tema: str, tema_id: int, cantidad: int, ejemplos: List[str]) -> str:
+    def _construir_prompt_generacion(self, subtema: str, subtema_id: int, cantidad: int, ejemplos: List[str]) -> str:
         prompt = (
-            f"Genera {cantidad} preguntas tipo examen para el subtema \"{tema}\" (ID {tema_id}), "
+            f"Genera {cantidad} preguntas tipo examen para el subtema \"{subtema}\" (ID {subtema_id}), "
             "relacionadas con el tema indicado. "
             "Las expresiones matemáticas deberán estar obligatoriamente "
             "escritas en formato LaTeX, usando el entorno:\n\n"

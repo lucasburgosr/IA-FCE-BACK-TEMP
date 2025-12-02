@@ -67,7 +67,7 @@ INSERT INTO asistente (asistente_id, nombre, instructions, materia_id)
 VALUES ('asst_LMnzwqHscAlIEBRRrWzB6myW', 'Tutor de Matemática V1', '-', 1);
 
 -- INSERT relaciones entre alumno y asistente de Matemática I
-INSERT INTO alumno_asistente (id, asistente_id)
+INSERT INTO estudiante_asistente (id, asistente_id)
 VALUES
 (17, 'asst_3KJfRBTDM0hNa6IQAgc9t818'),
 (18, 'asst_3KJfRBTDM0hNa6IQAgc9t818'),
