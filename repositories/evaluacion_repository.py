@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models.evaluacion import Evaluacion
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+from models.subtema import Subtema
 from models.tema import Tema
 from typing import List
 
@@ -23,8 +24,8 @@ class EvaluacionRepository:
         query = (
             select(Evaluacion)
             .options(
-                selectinload(Evaluacion.tema).options(
-                    selectinload(Tema.unidad)
+                selectinload(Evaluacion.subtema).options(
+                    selectinload(Subtema.tema)
                 )
             )
             .where(Evaluacion.estudiante_id == estudiante_id)
@@ -36,15 +37,15 @@ class EvaluacionRepository:
         query = (
             select(Evaluacion)
             .options(
-                selectinload(Evaluacion.tema).options(
-                    selectinload(Tema.unidad)
-                )
+                selectinload(Evaluacion.subtema)
+                .selectinload(Subtema.tema)
+                .selectinload(Tema.unidad)
             )
             .where(Evaluacion.asistente_id == asistente_id)
         )
         result = await self.db.execute(query)
         return result.scalars().all()
-
+    
     async def create(self, evaluacion_data: dict) -> Evaluacion:
         nueva_evaluacion = Evaluacion(**evaluacion_data)
         self.db.add(nueva_evaluacion)

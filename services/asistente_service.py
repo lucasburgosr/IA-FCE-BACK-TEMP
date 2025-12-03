@@ -13,6 +13,9 @@ class AsistenteService:
     # Obtiene el asistente desde la API con su ID
     async def get_asistente_by_id(self, asistente_id: str) -> Asistente:
         # La llamada a la API es síncrona, se delega a un hilo secundario
+
+        print("ASISTENTE ID")
+        print(asistente_id)
         asistente = await client.beta.assistants.retrieve(
             assistant_id=asistente_id
         )

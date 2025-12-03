@@ -11,7 +11,7 @@ class Materia(Base):
 
     unidades = relationship("Unidad", backref="materia",
                             cascade="all, delete-orphan")
-    profesores = relationship("Profesor", backref="materia")
+    profesores = relationship("Profesor", back_populates="materia")
     asistente = relationship(
         "Asistente", back_populates="materia", cascade="all, delete-orphan", uselist=False)
 

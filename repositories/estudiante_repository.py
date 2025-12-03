@@ -8,6 +8,7 @@ from models.pregunta import Pregunta
 from models.evaluacion import Evaluacion
 from models.unidad import Unidad
 from models.tema import Tema
+from models.subtema import Subtema
 
 
 class AlumnoRepository:
@@ -16,15 +17,26 @@ class AlumnoRepository:
         self.eager_loads = (
             selectinload(Estudiante.asistentes),
             selectinload(Estudiante.threads),
+
+            # Estudiante -> Preguntas
             selectinload(Estudiante.preguntas).options(
-                selectinload(Pregunta.tema),
-                selectinload(Pregunta.unidad).options(
-                    selectinload(Unidad.subtemas)
-                )
+                # Pregunta -> Subtema -> Tema -> Unidad (si te interesa llegar a unidad)
+                selectinload(Pregunta.subtema)
+                .selectinload(Subtema.tema)
+                .selectinload(Tema.unidad),
+
+                # Pregunta -> Unidad -> Temas -> Subtemas
+                selectinload(Pregunta.unidad)
+                .selectinload(Unidad.temas)
+                .selectinload(Tema.subtemas),
             ),
+
+            # Estudiante -> Evaluaciones -> Subtema -> Tema -> Unidad
             selectinload(Estudiante.evaluaciones).options(
-                selectinload(Evaluacion.tema)
-            )
+                selectinload(Evaluacion.subtema)
+                .selectinload(Subtema.tema)
+                .selectinload(Tema.unidad)
+            ),
         )
 
     async def get_by_id(self, id: int) -> Optional[Estudiante]:

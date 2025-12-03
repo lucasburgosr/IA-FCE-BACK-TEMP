@@ -1,6 +1,7 @@
 from config.db_config import Base
 from sqlalchemy import Boolean, Column, Integer, Float, String, DateTime, ForeignKey
 from datetime import datetime, timezone
+from sqlalchemy.orm import relationship
 
 
 class Evaluacion(Base):
@@ -14,6 +15,8 @@ class Evaluacion(Base):
     estudiante_id = Column(Integer, ForeignKey("estudiante.estudiante_id"), nullable=False)
     asistente_id = Column(String, ForeignKey("asistente.asistente_id"), nullable=False)
     pendiente = Column(Boolean, nullable=False, default=True)
+
+    subtema = relationship("Subtema", back_populates="evaluaciones")
 
     def __repr__(self):
         return f"<Evaluacion(evaluacion_id={self.evaluacion_id}, nota={self.nota})>"

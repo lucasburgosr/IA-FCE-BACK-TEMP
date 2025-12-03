@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from models.usuario import Usuario
-
+from sqlalchemy.orm import relationship
 
 class Profesor(Usuario):
     __tablename__ = "profesor"
@@ -8,6 +8,8 @@ class Profesor(Usuario):
     profesor_id = Column(Integer, ForeignKey("usuario.id"), primary_key=True)
     materia_id = Column(Integer, ForeignKey(
         "materia.materia_id"), nullable=False)
+    
+    materia = relationship("Materia", back_populates="profesores")
 
     __mapper_args__ = {"polymorphic_identity": "profesor"}
 

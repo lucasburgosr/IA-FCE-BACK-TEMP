@@ -5,7 +5,7 @@ from typing import List, Optional
 from models.pregunta import Pregunta
 from models.tema import Tema
 from models.unidad import Unidad
-
+from models.subtema import Subtema
 
 class PreguntaRepository:
     def __init__(self, db: AsyncSession):
@@ -51,12 +51,15 @@ class PreguntaRepository:
         query = (
             select(Pregunta)
             .options(
-                selectinload(Pregunta.tema).options(
-                    selectinload(Tema.unidad)
-                ),
-                selectinload(Pregunta.unidad).options(
-                    selectinload(Unidad.subtemas)
-                )
+                # Pregunta -> Subtema -> Tema -> Unidad
+                selectinload(Pregunta.subtema)
+                .selectinload(Subtema.tema)
+                .selectinload(Tema.unidad),
+
+                # Pregunta -> Unidad -> Temas -> Subtemas
+                selectinload(Pregunta.unidad)
+                .selectinload(Unidad.temas)
+                .selectinload(Tema.subtemas),
             )
             .where(Pregunta.asistente_id == asistente_id)
         )

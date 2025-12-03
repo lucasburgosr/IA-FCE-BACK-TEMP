@@ -10,10 +10,8 @@ class Tema(Base):
     nombre = Column(String(100), nullable=False)
     unidad_id = Column(Integer, ForeignKey("unidad.unidad_id"), nullable=False)
 
-    preguntas = relationship("Pregunta", backref="tema",
-                             cascade="all, delete-orphan")
-    evaluaciones = relationship(
-        "Evaluacion", backref="tema", cascade="all, delete-orphan")
+    subtemas = relationship("Subtema", back_populates="tema",
+                            cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Subtema(tema_id={self.tema_id}, nombre='{self.nombre}')>"

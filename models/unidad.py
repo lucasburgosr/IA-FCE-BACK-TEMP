@@ -11,7 +11,7 @@ class Unidad(Base):
     materia_id = Column(Integer, ForeignKey(
         "materia.materia_id"), nullable=False)
 
-    subtemas = relationship("Tema", backref="unidad",
+    temas = relationship("Tema", backref="unidad",
                             cascade="all, delete-orphan")
     preguntas = relationship("Pregunta", backref="unidad")
 

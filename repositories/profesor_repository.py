@@ -11,6 +11,7 @@ from models.unidad import Unidad
 from models.pregunta import Pregunta
 from models.evaluacion import Evaluacion
 from models.tema import Tema
+from models.subtema import Subtema
 
 
 class ProfesorRepository:
@@ -22,10 +23,13 @@ class ProfesorRepository:
             select(Profesor)
             .options(
                 selectinload(Profesor.materia).options(
+                    # Si tu relación se llama `asistente` y no `asistentes`, dejala así:
                     selectinload(Materia.asistente),
-                    selectinload(Materia.unidades).options(
-                        selectinload(Unidad.subtemas)
-                    )
+
+                    # Materia -> Unidades -> Temas -> Subtemas
+                    selectinload(Materia.unidades)
+                    .selectinload(Unidad.temas)
+                    .selectinload(Tema.subtemas),
                 )
             )
             .where(Profesor.profesor_id == profesor_id)
@@ -61,6 +65,7 @@ class ProfesorRepository:
         await self.db.delete(profesor)
         await self.db.commit()
 
+    
     async def get_estudiantes(self, profesor_id: int) -> List[Estudiante]:
         profesor_result = await self.db.execute(
             select(Profesor).where(Profesor.profesor_id == profesor_id)
@@ -75,16 +80,16 @@ class ProfesorRepository:
             selectinload(Estudiante.asistentes),
             selectinload(Estudiante.threads),
             selectinload(Estudiante.preguntas).options(
-                selectinload(Pregunta.tema),
+                selectinload(Pregunta.subtema),
                 selectinload(Pregunta.unidad).options(
-                    selectinload(Unidad.subtemas)
-                )
+                    selectinload(Unidad.temas)
+                ),
             ),
             selectinload(Estudiante.evaluaciones).options(
-                selectinload(Evaluacion.tema).options(
-                    selectinload(Tema.unidad)
-                )
-            )
+                selectinload(Evaluacion.subtema)
+                .selectinload(Subtema.tema)
+                .selectinload(Tema.unidad)
+            ),
         )
 
         alumnos_query = (
