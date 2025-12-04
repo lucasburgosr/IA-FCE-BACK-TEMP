@@ -8,7 +8,7 @@ load_dotenv()
 client = OpenAI()
 
 response = client.vector_stores.files.list(
-    vector_store_id="vs_692e087391448191b1ab0ca35298e92f")
+    vector_store_id="vs_6834c31e42e48191b3f5cad6596f7170", limit=100)
 
 archivos = response.data
 
@@ -18,8 +18,7 @@ for a in archivos:
     print(a.attributes)
 
 for a in archivos:
-    if (a.id != 'file-E4dr4KynALZWxXy8xZkwP2' and a.id != 'file-XRbssPawsGdpZQPnQx4GpW' and a.id != 'file-NoyHqcfE78eieCxtv3EvkN'):
-        client.vector_stores.files.delete(file_id=a.id, vector_store_id="vs_692e087391448191b1ab0ca35298e92f")
+        client.vector_stores.files.delete(file_id=a.id, vector_store_id="vs_6834c31e42e48191b3f5cad6596f7170")
         print(f"Archivo con ID {a.id} eliminado de la vector store")
         client.files.delete(file_id=a.id)
         print(f"Archivo con ID {a.id} eliminado de la API")

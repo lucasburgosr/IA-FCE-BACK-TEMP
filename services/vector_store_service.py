@@ -159,7 +159,7 @@ class VectorService:
         rsp = await asyncio.to_thread(
             sync_client.vector_stores.search,
             vector_store_id=vector_store_id,
-            query=f"pregunta de examen sobre {subtema}",
+            query=f"{subtema}",
             max_num_results=n,
             filters=filters
         )
@@ -173,10 +173,8 @@ class VectorService:
 
             respuesta = await client.chat.completions.create(
                 model="gpt-4o-mini",
-                messages=[{"role": "system", "content": "Sos un generador de preguntas de matemática de nivel pre-universitario. "
-                            "Cada pregunta debe tener un enunciado seguido de un ejercicios utilizando LaTeX, "
-                            "con el entorno \\begin{align*} ... \\end{align*} delimitado con \\[ y \\]. "
-                            "No incluyas respuestas ni explicaciones. No uses numeración. "
+                messages=[{"role": "system", "content": "Sos un generador de preguntas de nivel universitario. "
+                            "No incluyas respuestas ni explicaciones. "
                             "Separá cada pregunta con dos líneas en blanco."}, {"role": "user", "content": prompt}],
                 temperature=0.7
             )
@@ -194,7 +192,7 @@ class VectorService:
         prompt = (
             f"Genera {cantidad} preguntas tipo examen para el subtema \"{subtema}\" (ID {subtema_id}), "
             "relacionadas con el tema indicado. "
-            "Las expresiones matemáticas deberán estar obligatoriamente "
+            "Las expresiones matemáticas (si las hay) deberán estar obligatoriamente "
             "escritas en formato LaTeX, usando el entorno:\n\n"
             "\\[\n\\begin{align*}\n...\n\\end{align*}\n\\]\n\n"
             "No incluyas respuestas ni explicaciones. No uses numeración. "

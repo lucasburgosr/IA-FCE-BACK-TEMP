@@ -19,7 +19,6 @@ class Asistente(Base):
         "materia.materia_id"), nullable=False)
     vs_temas_id = Column(String(50), nullable=False)
     vs_evaluaciones_id = Column(String(50), nullable=False)
-    evaluador_id = Column(String(50), nullable=True)
 
     materia = relationship("Materia", back_populates="asistente")
     threads = relationship(
