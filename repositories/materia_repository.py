@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from models.materia import Materia
 from models.unidad import Unidad
+from models.tema import Tema
 from sqlalchemy import select
 
 
@@ -13,7 +14,10 @@ class MateriaRepository:
         query = (
             select(Materia)
             .options(
-                selectinload(Materia.unidades).selectinload(Unidad.subtemas),
+                selectinload(Materia.unidades)
+                .selectinload(Unidad.temas)
+                .selectinload(Tema.subtemas),
+
                 selectinload(Materia.asistente)
             )
             .where(Materia.materia_id == materia_id)

@@ -84,7 +84,7 @@ class EvaluacionService:
 
         subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(subtema_nombre, vs_id, estudiante_id)
 
-        preguntas = await vector_service.obtener_preguntas(subtema=subtema_nombre, subtema=subtema_id, n=num_q, vector_store_id=vs_id)
+        preguntas = await vector_service.obtener_preguntas(subtema=subtema_nombre, subtema_id=subtema_id, n=num_q, vector_store_id=vs_id)
 
         if isinstance(preguntas, dict) and "error" in preguntas:
             return preguntas
