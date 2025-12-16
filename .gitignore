@@ -2,10 +2,6 @@
 __pycache__/
 .venv/
 
-# Secretos
-tutor-virtual-ia-fce-firebase-adminsdk-fbsvc-28ed75aef2.json
-config/tutor-virtual-ia-fce-firebase-adminsdk-fbsvc-764b634a0a.json
-
 # Carpetas auxiliares
 anexos
 bibliografia

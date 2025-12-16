@@ -201,6 +201,13 @@ class ThreadService:
         Paso 1 del flujo asincrónico: Orquesta las tareas iniciales, crea el mensaje, 
         inicia el run y devuelve su ID inmediatamente para la respuesta del endpoint.
         """
+
+        print("DATA QUE ESTÁ LLEGANDO:")
+        print(id)
+        print(texto)
+        print(asistente_id)
+        print(estudiante_id)
+
         async with self.semaphore:
             # --- Lógica de inicialización movida aquí ---
             as_repo = AsistenteRepository(db=self.db)

@@ -41,14 +41,26 @@ class PreguntaService:
         await self.pregunta_repo.delete(pregunta)
 
     async def insertar_y_clasificar_pregunta(self, texto: str, vector_store_id: str, estudiante_id: str, asistente_id: str):
+
+        print("DATA QUE ESTÁ LLEGANDO:")
+        print(texto)
+        print(vector_store_id)
+        print(estudiante_id)
+        print(asistente_id)
+
         vector_service = VectorService(self.db)
-        subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(
+        subtema_id, unidad_id = await vector_service.clasificar_consulta(
             texto=texto, vector_store_id=vector_store_id, estudiante_id=estudiante_id
         )
+
+        print("PREGUNTA CLASIFICADA.")
 
         pregunta_data = {
             "contenido": texto, "subtema_id": subtema_id, "unidad_id": unidad_id,
             "estudiante_id": estudiante_id, "asistente_id": asistente_id
         }
+
+        print(f"Pregunta: {pregunta_data}")
+
         pregunta = await self.create_pregunta(pregunta_data=pregunta_data)
         return pregunta

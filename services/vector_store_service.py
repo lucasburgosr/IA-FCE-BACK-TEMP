@@ -134,12 +134,11 @@ class VectorService:
 
         try:
             subtopic_int = int(float(best.attributes["subtopic_id"]))
-            topic_int = int(float(best.attributes["topic_id"]))
             unit_int = int(float(best.attributes["unit_id"]))
 
             # --- FILTRO DE SEGURIDAD ---
             # Si los IDs son 0 o inválidos, lo consideramos un mal resultado.
-            if subtopic_int == 0 or unit_int == 0 or topic_int == 0:
+            if subtopic_int == 0 or unit_int == 0:
                 print(f"[clasificar_consulta] IDs inválidos en los atributos.")
                 if (fb := await last_ids_task) is not None:
                     return fb
@@ -151,7 +150,7 @@ class VectorService:
                 return fb
             raise
 
-        return [subtopic_int, topic_int, unit_int]
+        return [subtopic_int, unit_int]
 
     async def obtener_preguntas(self, subtema: str, subtema_id: int, n: int, vector_store_id: str) -> List[Dict]:
         filters = {"key": "subtopic_id", "type": "eq", "value": str(subtema_id)}

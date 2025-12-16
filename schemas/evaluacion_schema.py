@@ -7,7 +7,7 @@ from schemas.subtema_schema import SubtemaOut
 
 class EvaluacionBase(BaseModel):
     nota: float
-    tema: SubtemaOut
+    subtema: SubtemaOut
     asistente_id: str
 
 

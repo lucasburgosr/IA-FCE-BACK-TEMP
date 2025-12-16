@@ -69,6 +69,8 @@ class EvaluacionService:
         """
 
         subtema_nombre = data.get("subtema")
+        print("ACÁ TENEMOS EL SUBTEMA PARA LA EVALUACIÓN:")
+        print(subtema_nombre)
         num_q = data.get("num_questions", 5)
 
         if not subtema_nombre:
@@ -82,7 +84,7 @@ class EvaluacionService:
 
         vector_service = VectorService(self.db)
 
-        subtema_id, tema_id, unidad_id = await vector_service.clasificar_consulta(subtema_nombre, vs_id, estudiante_id)
+        subtema_id, unidad_id = await vector_service.clasificar_consulta(subtema_nombre, vs_id, estudiante_id)
 
         preguntas = await vector_service.obtener_preguntas(subtema=subtema_nombre, subtema_id=subtema_id, n=num_q, vector_store_id=vs_id)
 
